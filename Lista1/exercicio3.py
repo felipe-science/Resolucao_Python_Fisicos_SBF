@@ -2,47 +2,23 @@ import numpy as np
 
 total_data = np.loadtxt("dados_moleculas.dat")
 
-def Ixx(mi,yi,zi):
-    sum = 0
-    for i in range(len(yi)):
-        sum += mi[i]*((yi[i])**2+(zi[i])**2)
-    return sum
+def R_cm(mi,xi,yi,zi):
 
-def Iyy(mi,xi,zi):
-    sum = 0
+    xcm = 0.0
+    ycm = 0.0
+    zcm = 0.0
+
+    M = sum(mi)
     for i in range(len(xi)):
-        sum += mi[i]*((xi[i])**2+(zi[i])**2)
-    return sum
+        xcm = xcm + mi[i]*xi[i]
+        ycm = ycm + mi[i]*yi[i]
+        zcm = zcm + mi[i]*zi[i]
 
-def Izz(mi,xi,yi):
-    sum = 0
-    for i in range(len(xi)):
-        sum += mi[i]*((xi[i])**2+(yi[i])**2)
-    return sum
+    xcm = xcm/M
+    ycm = ycm/M
+    zcm = zcm/M
 
-def Ixy(mi,xi,yi):
-    sum = 0
-    for i in range(len(xi)):
-        sum += mi[i]*xi[i]*yi[i]
-    return -sum
-
-def Iyz(mi,yi,zi):
-    sum = 0
-    for i in range(len(yi)):
-        sum += mi[i]*yi[i]*zi[i]
-    return -sum
-
-def Ixz(mi,xi,zi):
-    sum = 0
-    for i in range(len(xi)):
-        sum += mi[i]*xi[i]*zi[i]
-    return -sum
-
-
-I_NH3 = np.zeros([3,3])
-I_CH4 = np.zeros([3,3])
-I_CH3Cl = np.zeros([3,3])
-I_O3 = np.zeros([3,3])
+    return xcm, ycm, zcm
 
 
 #NH3
@@ -59,4 +35,10 @@ for i in range(0,4,1):
     yi.append(atomo[2])
     zi.append(atomo[3])  
 
-I_NH3[0,0] = Ixx(mi,yi,zi)
+
+
+
+
+print(mi)
+la = R_cm(mi,xi,yi,zi)
+print(la)
